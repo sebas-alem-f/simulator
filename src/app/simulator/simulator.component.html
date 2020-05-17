@@ -1,0 +1,114 @@
+<nz-layout>
+  <nz-content>
+    <div nz-row>
+      <div nz-col nzSpan="22" nzOffset="1">
+        <nz-tabset nzSize="large">
+          <nz-tab *ngFor="let tab of tabs" [nzTitle]="tabTitle">
+            <ng-template #tabTitle>
+              <span class="tab-title" nz-typography>
+                <i nz-icon [nzType]="tab.icon" nzTheme="twotone"></i>{{ tab.name }}
+              </span>
+            </ng-template>
+            <nz-card>
+              <div nz-row nzGutter="50" nzJustify="center" nzAlign="middle">
+                <div nz-col [nzXs]="{ span: 24, offset:0 }" [nzLg]="{ span:14, offset: 0 }">
+                  <nz-form-item>
+                    <nz-form-label nzNoColon>
+                      <span class="question" nz-typography>¿Cu&aacute;nto dinero necesita?</span>
+                    </nz-form-label>
+                    <nz-form-control nzSpan="22" nzOffset="1">
+                      <nz-slider
+                        [(ngModel)]="tab.amount.value"
+                        [nzMarks]="tab.amount.marks"
+                        [nzMax]="tab.amount.max"
+                        [nzMin]="tab.amount.min"
+                        (ngModelChange)="calcFrench(tab)"
+                        nzStep="500"
+                      ></nz-slider>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label nzNoColon>
+                      <span class="question" nz-typography>¿A qu&eacute; tiempo desea financiarlo?</span>
+                    </nz-form-label>
+                    <nz-form-control nzSpan="22" nzOffset="1">
+                      <nz-slider
+                        [(ngModel)]="tab.time.value"
+                        [nzMarks]="tab.time.marks"
+                        [nzMax]="tab.time.max"
+                        [nzMin]="tab.time.min"
+                        (ngModelChange)="calcFrench(tab)"
+                        nzStep="3"
+                      ></nz-slider>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div nz-col [nzXs]="{ span: 24, offset:0 }" [nzLg]="{ span:10, offset:0 }" align="center">
+                  <nz-card>
+                    <nz-divider [nzText]="resultTitle" nzOrientation="center">
+                      <ng-template #resultTitle>
+                        <span
+                          class="result-title"
+                          nz-typography>
+                          <i nz-icon [nzType]="tab.icon" nzTheme="twotone"></i> Cr&eacute;dito {{tab.name}}
+                        </span>
+                      </ng-template>
+                    </nz-divider>
+                    <div nz-row nzJustify="center" nzAlign="middle">
+                      <div nz-col nzSpan="12">
+                        <nz-form-item>
+                          <nz-form-label>
+                            <span class="detail-title" nz-typography>Monto</span>
+                          </nz-form-label>
+                          <nz-form-control>
+                                <span nz-typography class="detail-content">
+                                  $ {{(tab.amount.value | number)}}
+                                </span>
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                      <div nz-col nzSpan="12">
+                        <nz-form-item>
+                          <nz-form-label>
+                            <span class="detail-title" nz-typography>Plazo</span>
+                          </nz-form-label>
+                          <nz-form-control>
+                                <span nz-typography class="detail-content">
+                                  {{(tab.time.value | number)}} meses
+                                </span>
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                    </div>
+                    <div nz-row nzJustify="center" nzAlign="middle">
+                      <div nz-col nzSpan="24" align="center">
+                        <nz-statistic
+                          [nzValue]="(tab.paymentMonth | number:'.2-2')"
+                          [nzTitle]="paymentTitle"
+                          nzPrefix="$">
+                          <ng-template #paymentTitle>
+                            <span class="payment-month" nz-typography>Cuota mensual</span>
+                          </ng-template>
+                        </nz-statistic>
+                        <nz-divider nzOrientation="center" [nzText]="details">
+                          <ng-template #details>
+                            <span
+                              class="result-subtitle"
+                              nz-typography
+                              nzType="secondary">
+                              Tasa de Inter&eacute;s: {{tab.interestRate}}%
+                            </span>
+                          </ng-template>
+                        </nz-divider>
+                      </div>
+                    </div>
+                  </nz-card>
+                </div>
+              </div>
+            </nz-card>
+          </nz-tab>
+        </nz-tabset>
+      </div>
+    </div>
+  </nz-content>
+</nz-layout>
